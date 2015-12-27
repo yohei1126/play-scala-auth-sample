@@ -5,12 +5,12 @@ import models.User
 import dao.UserDAO
 
 trait Secured {
-  private def sessionId(request: RequestHeader) = request.session.get(Security.username)
+  private def username(request: RequestHeader) = request.session.get(Security.username)
 
   private def onUnauthorized(request: RequestHeader) = Results.Redirect(routes.Application.login)
 
   def withAuth(f: => String => Request[AnyContent] => Result) = {
-    Security.Authenticated(sessionId, onUnauthorized) { user =>
+    Security.Authenticated(username, onUnauthorized) { user =>
       Action(request => f(user)(request))
     }
   }
