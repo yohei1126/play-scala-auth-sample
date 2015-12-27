@@ -1,0 +1,37 @@
+@(form: Form[(String, String)])(implicit messages: Messages)
+
+@main("login") {
+
+  @if(form.hasGlobalErrors) {
+  <ul>
+    @for(error <- form.globalErrors) {
+    <li>@error.message</li>
+    }
+  </ul>
+  }
+
+  @helper.form(action = routes.Application.authenticate()) {
+   <div class="form-group">
+    email:
+    @helper.inputText(
+      form("email"),
+      'type -> "email",
+      'class ->"form-control",
+      'placeholder -> "john@example.com",
+      '_label -> "",
+      '_showConstraints -> false)
+    </div>
+    <div class="form-group">
+    password:
+    @helper.inputPassword(
+      form("password"),
+      'type -> "password",
+      'class ->"form-control",
+      'placeholder -> "password",
+      '_label -> "",
+      '_showConstraints -> false
+    )
+    </div>
+    <button type="submit" class="btn btn-success" id="sign_in_out_btn">Sign in</button>
+  }
+}
